@@ -637,7 +637,7 @@ def prompt_for_password(prompt=None, no_colon=False, stream=None):
     defaults to ``sys.stderr``.
     """
     from fabric.state import env
-    handle_prompt_abort("a connection or sudo password")
+    handle_prompt_abort("a connection or sudo password", prompt=prompt)
     stream = stream or sys.stderr
     # Construct prompt
     default = "[%s] Login password for '%s'" % (env.host_string, env.user)
