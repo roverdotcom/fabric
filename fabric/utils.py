@@ -170,12 +170,13 @@ def fastprint(text, show_prefix=False, end="", flush=True):
     return puts(text=text, show_prefix=show_prefix, end=end, flush=flush)
 
 
-def handle_prompt_abort(prompt_for, prompt=None):
+def handle_prompt_abort(prompt_for, prompt=None, exception=None):
     import fabric.state
-    reason = "Needed to prompt %s for %s (host: %s), but %%s" % (
+    reason = "Needed to prompt %s for %s (host: %s) Exception: %s, but %%s" % (
         prompt,
         prompt_for,
         fabric.state.env.host_string,
+        exception,
     )
     # Explicit "don't prompt me bro"
     if fabric.state.env.abort_on_prompts:

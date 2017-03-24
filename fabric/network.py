@@ -562,7 +562,7 @@ def connect(user, host, port, cache, seek_gateway=True):
                 # which one raised the exception. Best not to try.
                 prompt = "[%s] Passphrase for private key"
                 text = prompt % env.host_string
-            password = prompt_for_password(text)
+            password = prompt_for_password(prompt=text, exception=e)
             # Update env.password, env.passwords if empty
             set_password(user, host, port, password)
         # Ctrl-D / Ctrl-C for exit
@@ -619,7 +619,7 @@ def _password_prompt(prompt, stream):
     # choking if given Unicode.
     return getpass.getpass(prompt.encode('ascii', 'ignore'), stream)
 
-def prompt_for_password(prompt=None, no_colon=False, stream=None):
+def prompt_for_password(prompt=None, no_colon=False, stream=None, exception=None):
     """
     Prompts for and returns a new password if required; otherwise, returns
     None.
@@ -637,7 +637,8 @@ def prompt_for_password(prompt=None, no_colon=False, stream=None):
     defaults to ``sys.stderr``.
     """
     from fabric.state import env
-    handle_prompt_abort("a connection or sudo password", prompt=prompt)
+    handle_prompt_abort(
+        "a connection or sudo password", prompt=prompt, exception=exception)
     stream = stream or sys.stderr
     # Construct prompt
     default = "[%s] Login password for '%s'" % (env.host_string, env.user)
