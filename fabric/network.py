@@ -562,6 +562,10 @@ def connect(user, host, port, cache, seek_gateway=True):
                 # which one raised the exception. Best not to try.
                 prompt = "[%s] Passphrase for private key"
                 text = prompt % env.host_string
+            import traceback
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            traceback.print_exception(exc_type, exc_value, exc_traceback,
+                                      limit=2, file=sys.stdout)
             password = prompt_for_password(prompt=text, exception=e)
             # Update env.password, env.passwords if empty
             set_password(user, host, port, password)
